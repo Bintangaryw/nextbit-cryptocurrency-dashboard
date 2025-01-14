@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../../components/ui/navbar/Navbar";
 import ByMarketCap from "../../components/content/by-market-cap/ByMarketCap";
 
