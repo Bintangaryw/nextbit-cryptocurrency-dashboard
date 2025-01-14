@@ -9,4 +9,12 @@
         background-color: #0f0e14;
         color: #cdcbc7;
     }
+    td {
+        text-align: center;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    th {
+        padding-bottom: 10px;
+    }
 }
