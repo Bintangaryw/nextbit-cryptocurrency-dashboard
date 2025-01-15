@@ -1,6 +1,8 @@
 import { MdNumbers } from "react-icons/md";
-import axios from "axios";
+import { FaAngleUp } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import LineChart from "./LineChart";
 
 const Table = () => {
     const [coinsBMC, setCoinsBMC] = useState([]);
@@ -12,6 +14,7 @@ const Table = () => {
                     params: {
                         vs_currency: "idr",
                         order: "market_cap_desc",
+                        per_page: 15,
                         sparkline: true,
                     },
                     headers: {
@@ -26,44 +29,58 @@ const Table = () => {
         };
         getCoinsBMC();
     }, []);
+
     return (
-        <div className="overflow-x-auto">
-            <table className="w-full whitespace-nowrap table-fixed">
-                <thead>
-                    <tr>
-                        <th className="w-12 sticky left-0 bg-[#0f0e14] z-10">
-                            <MdNumbers className="mx-auto" />
-                        </th>
-                        <th className="w-40 md:w-64 text-left pl-5 sticky left-12 bg-[#0f0e14] z-10">Coin</th>
-                        <th className="w-32 text-right">Price</th>
-                        <th className="w-12 text-center pr-0">1h</th>
-                        <th className="w-12 text-center pr-0">24h</th>
-                        <th className="w-12 text-center pr-0">7d</th>
-                        <th className="w-36 text-right truncate">24h Volume</th>
-                        <th className="w-36 text-right truncate">Market Cap</th>
-                        <th className="w-36 text-right truncate">Last 7 Days</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {coinsBMC.map((coin) => (
-                        <tr key={coin.id}>
-                            <td className="text-center sticky left-0 bg-[#0f0e14] z-10">#</td>
-                            <td className="flex items-center text-left pl-5 sticky left-12 bg-[#0f0e14] z-10">
-                                <img src={coin.image} className="w-7 h-7" alt={coin.name} />
-                                <span className="pl-2">{coin.name}</span>
-                            </td>
-                            <td className="text-right">{coin.current_price}</td>
-                            <td className="text-center pr-0">10</td>
-                            <td className="text-center pr-0">10</td>
-                            <td className="text-center pr-0">10</td>
-                            <td className="text-right truncate">100,000,000,000</td>
-                            <td className="text-right truncate">100,000,000,000</td>
-                            <td className="text-right truncate">100,000,000,000</td>
+        <>
+            <div className="overflow-x-auto">
+                <table className="w-full whitespace-nowrap table-fixed">
+                    <thead>
+                        <tr>
+                            <th className="w-12 sticky left-0 bg-[#0f0e14] z-10">
+                                <MdNumbers className="mx-auto" />
+                            </th>
+                            <th className="w-40 md:w-64 text-left pl-5 sticky left-12 bg-[#0f0e14] z-10">Coin</th>
+                            <th className="w-32 text-right">Price</th>
+                            <th className="w-12 text-center pr-0">1h</th>
+                            <th className="w-12 text-center pr-0">24h</th>
+                            <th className="w-12 text-center pr-0">7d</th>
+                            <th className="w-36 text-right truncate">24h Volume</th>
+                            <th className="w-36 text-right truncate">Market Cap</th>
+                            <th className="w-36 text-right truncate">Last 7 Days</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {coinsBMC.map((coin) => {
+                            const prices = coin.sparkline_in_7d.price;
+                            const totalData = prices.length;
+                            const interval = Math.floor(totalData / 10);
+                            const sampledData = prices.filter((_, index) => index % interval === 0).slice(0, 10);
+
+                            return (
+                                <tr key={coin.id}>
+                                    <td className="text-center sticky left-0 bg-[#0f0e14] z-10">#</td>
+
+                                    <td className="flex item-center h-auto text-left pl-5 sticky left-12 bg-[#0f0e14] z-10">
+                                        <img src={coin.image} className="w-7 h-7" alt={coin.name} />
+                                        <span className="pl-2">{coin.name}</span>
+                                    </td>
+
+                                    <td className="text-right">{coin.current_price}</td>
+                                    <td className="text-center pr-0">10</td>
+                                    <td className="text-center pr-0">10</td>
+                                    <td className="text-center pr-0">10</td>
+                                    <td className="text-right truncate">100,000,000,000</td>
+                                    <td className="text-right truncate">100,000,000,000</td>
+                                    <td className="text-right truncate p-0">
+                                        <LineChart coinName={coin.name} coinPrice={sampledData} />
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 };
 
