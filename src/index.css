@@ -8,6 +8,8 @@
         @apply font-inter;
         background-color: #0f0e14;
         color: #cdcbc7;
+        font-size: 0.75rem;
+        line-height: 1rem;
     }
     td {
         text-align: right;
