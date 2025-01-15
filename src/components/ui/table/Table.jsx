@@ -1,5 +1,5 @@
 import { MdNumbers } from "react-icons/md";
-import { FaAngleUp } from "react-icons/fa";
+import { FaCaretUp } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import LineChart from "./LineChart";
@@ -62,11 +62,17 @@ const Table = () => {
 
                                     <td className="flex item-center h-auto text-left pl-5 sticky left-12 bg-[#0f0e14] z-10">
                                         <img src={coin.image} className="w-7 h-7" alt={coin.name} />
-                                        <span className="pl-2">{coin.name}</span>
+                                        <span className="pl-2 my-auto">{coin.name}</span>
+                                        <span className=" px-1 my-auto text-sm"> &#x2022; {coin.symbol}</span>
                                     </td>
 
                                     <td className="text-right">{coin.current_price}</td>
-                                    <td className="text-center pr-0">10</td>
+                                    <td className="text-center pr-0 flex items-center text-green-400">
+                                        <span>
+                                            <FaCaretUp />
+                                        </span>
+                                        1.5%
+                                    </td>
                                     <td className="text-center pr-0">10</td>
                                     <td className="text-center pr-0">10</td>
                                     <td className="text-right truncate">100,000,000,000</td>
