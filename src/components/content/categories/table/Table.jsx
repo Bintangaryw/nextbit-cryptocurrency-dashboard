@@ -1,30 +1,16 @@
 import { MdNumbers } from "react-icons/md";
-import { useState, useEffect } from "react";
-import axios from "axios";
-// import LineChart from "../../by-market-cap/table/LineChart";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+// import axios from "axios";
+import { getCategories } from "../../../../redux/actions/categoriesActions";
 
 const Table = () => {
-    const [categories, setCategories] = useState([]);
+    const dispatch = useDispatch();
+    const categories = useSelector((state) => state.categories.categories);
 
-    // get coins by market cap
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v3/coins/categories`, {
-                    headers: {
-                        accept: "application/json",
-                        x_cg_demo_api_key: `${import.meta.env.VITE_API_KEY}`,
-                    },
-                });
-                setCategories(response.data.slice(0, 15));
-                console.log(response.data.slice(0, 15));
-            } catch (error) {
-                alert(error);
-                console.log(error);
-            }
-        };
-        getCategories();
-    }, []);
+        dispatch(getCategories());
+    }, [dispatch]);
 
     const formatToRupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
