@@ -4,6 +4,7 @@ import { TbBrandTorchain } from "react-icons/tb";
 import { MdOutlineCategory } from "react-icons/md";
 import { TbChartBarPopular } from "react-icons/tb";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import nextbit_full from "../../../assets/img/nextbit-logo/full/logo-no-background.png";
 
 const Navbar = () => {
@@ -23,14 +24,19 @@ const Navbar = () => {
                         <span className="hover:text-[#E24658]">Cryptocurrency</span>
                         {/* Dropdown menu */}
                         <ul className="absolute right-0 top-full w-60 hidden bg-[#282634]  border-[#E24658] rounded shadow-md p-2 group-hover:block">
-                            <li className="flex items-center px-2 py-1 hover:text-[#E24658]">
-                                <TbChartBarPopular />
-                                <span className="px-2">By Market Cap</span>
-                            </li>
-                            <li className="flex items-center px-2 py-1 hover:text-[#E24658]">
-                                <MdOutlineCategory />
-                                <span className="px-2">Categories</span>
-                            </li>
+                            <Link to="/">
+                                <li className="flex items-center px-2 py-1 hover:text-[#E24658]">
+                                    <TbChartBarPopular />
+                                    <span className="px-2">By Market Cap</span>
+                                </li>
+                            </Link>
+                            <Link to="/crypto-categories">
+                                <li className="flex items-center px-2 py-1 hover:text-[#E24658]">
+                                    <MdOutlineCategory />
+                                    <span className="px-2">Categories</span>
+                                </li>
+                            </Link>
+
                             <li className="flex items-center px-2 py-1 hover:text-[#E24658]">
                                 <TbBrandTorchain /> <span className="px-2">Chains</span>
                             </li>

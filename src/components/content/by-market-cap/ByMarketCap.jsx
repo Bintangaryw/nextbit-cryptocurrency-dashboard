@@ -1,4 +1,4 @@
-import Table from "../../ui/table/Table";
+import Table from "./table/Table";
 
 const ByMarketCap = () => {
     return (
