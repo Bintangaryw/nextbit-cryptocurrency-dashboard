@@ -30,7 +30,7 @@ const Table = () => {
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
-            minimumFractionDigits: 0, // Jika tidak ingin desimal
+            minimumFractionDigits: 0,
         }).format(value);
     };
 
