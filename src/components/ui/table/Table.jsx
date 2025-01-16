@@ -53,7 +53,7 @@ const Table = () => {
                             <th className="w-32 text-right">Price</th>
                             <th className="w-16 text-center pr-0">1h</th>
                             <th className="w-16 text-center pr-0">24h</th>
-                            <th className="w-16 text-center pr-0">7d</th>
+                            <th className="w-16 text-center pr-0">7h</th>
                             <th className="w-36 text-right truncate">24h Volume</th>
                             <th className="w-36 text-right truncate">Market Cap</th>
                             <th className="w-32">Last 7 Days</th>
@@ -63,11 +63,11 @@ const Table = () => {
                         {coinsBMC.map((coin) => {
                             const lastPrice = coin.sparkline_in_7d.price.at(-1);
                             const price1HourAgo = coin.sparkline_in_7d.price.at(-7);
-                            const price7DaysAgo = coin.sparkline_in_7d.price[0];
+                            const price7HoursAgo = coin.sparkline_in_7d.price[0];
 
                             const priceChange1h = ((lastPrice - price1HourAgo) / price1HourAgo) * 100 || 0;
                             const priceChange24h = coin.price_change_percentage_24h || 0;
-                            const priceChange7d = ((lastPrice - price7DaysAgo) / price7DaysAgo) * 100 || 0;
+                            const priceChange7h = ((lastPrice - price7HoursAgo) / price7HoursAgo) * 100 || 0;
                             const prices = coin.sparkline_in_7d.price;
                             const totalData = prices.length;
                             const interval = Math.floor(totalData / 10);
@@ -76,13 +76,13 @@ const Table = () => {
                             // Function to determine color and symbol
                             const getChangeIndicator = (value) => {
                                 if (value < 0) {
-                                    return { color: "text-red-400", icon: <FaCaretDown /> };
+                                    return { color: "text-[#fc0000]", icon: <FaCaretDown /> };
                                 }
-                                return { color: "text-green-400", icon: <FaCaretUp /> };
+                                return { color: "text-[#32ca5b]", icon: <FaCaretUp /> };
                             };
                             const change1h = getChangeIndicator(priceChange1h);
                             const change24h = getChangeIndicator(priceChange24h);
-                            const change7d = getChangeIndicator(priceChange7d);
+                            const change7h = getChangeIndicator(priceChange7h);
 
                             return (
                                 <tr key={coin.id}>
@@ -116,10 +116,10 @@ const Table = () => {
                                     </td>
 
                                     {/* 7d changes */}
-                                    <td className={`text-center pr-0 ${change7d.color}`}>
+                                    <td className={`text-center pr-0 ${change7h.color}`}>
                                         <div className="flex items-center">
-                                            <span>{change7d.icon}</span>
-                                            <div>{priceChange7d.toFixed(1)}%</div>
+                                            <span>{change7h.icon}</span>
+                                            <div>{priceChange7h.toFixed(1)}%</div>
                                         </div>
                                     </td>
 
