@@ -1,36 +1,18 @@
 import { MdNumbers } from "react-icons/md";
 import { FaCaretUp } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import LineChart from "./LineChart";
+import { getCrypto } from "../../../../redux/actions/cryptoActions";
 
 const Table = () => {
-    const [coinsBMC, setCoinsBMC] = useState([]);
+    const dispatch = useDispatch();
+    const coinsBMC = useSelector((state) => state.crypto.cryptoBMC);
 
-    // get coins by market cap
     useEffect(() => {
-        const getCoinsBMC = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v3/coins/markets`, {
-                    params: {
-                        vs_currency: "idr",
-                        order: "market_cap_desc",
-                        per_page: 15,
-                        sparkline: true,
-                    },
-                    headers: {
-                        accept: "application/json",
-                        x_cg_demo_api_key: `${import.meta.env.VITE_API_KEY}`,
-                    },
-                });
-                setCoinsBMC(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getCoinsBMC();
-    }, []);
+        dispatch(getCrypto());
+    }, [dispatch]);
 
     const formatToRupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
