@@ -1,7 +1,7 @@
 import { MdNumbers } from "react-icons/md";
 import { FaCaretUp } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LineChart from "./LineChart";
 import { getCrypto } from "../../../../redux/actions/cryptoActions";
@@ -9,10 +9,13 @@ import { getCrypto } from "../../../../redux/actions/cryptoActions";
 const Table = () => {
     const dispatch = useDispatch();
     const coinsBMC = useSelector((state) => state.crypto.cryptoBMC);
+    const totalPages = useSelector((state) => state.crypto.totalPages);
+    const [currentPage, setCurrentPage] = useState(1);
+    console.log("total pages: ", totalPages);
 
     useEffect(() => {
-        dispatch(getCrypto());
-    }, [dispatch]);
+        dispatch(getCrypto(currentPage));
+    }, [dispatch, currentPage]);
 
     const formatToRupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
@@ -120,6 +123,15 @@ const Table = () => {
                         })}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Pagination Buttons */}
+            <div className="flex justify-center items-center py-10">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button key={index} onClick={() => setCurrentPage(index + 1)} className={`px-2 mx-2 hover:underline ${currentPage === index + 1 ? "font-bold text-[#E24658]" : ""}`}>
+                        {index + 1}
+                    </button>
+                ))}
             </div>
         </>
     );
